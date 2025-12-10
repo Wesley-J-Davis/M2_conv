@@ -177,7 +177,7 @@
                 metric_job=$(sbatch --parsable \
                     -J ${YEAR_TABLE}.conv.${metric} \
                     -o ${SLURM_LOG_DIR}/${metric}.log \
-                    --export=YEAR_TABLE=${YEAR_TABLE},METRIC=${metric},SYNOP_TABLE=${SYNOP} \
+                    --export=YEAR_TABLE=${YEAR_TABLE},METRIC=${metric} \
                     --nodes=1 \
                     --ntasks-per-node=1 \
                     --cpus-per-task=1 \
