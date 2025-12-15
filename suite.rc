@@ -11,7 +11,7 @@
             graph = """
                 debug => process_jobs => metric_jobs
                 metric_jobs => combine_jobs & hourly_jobs
-                combine_jobs & hourly_jobs => debug[+P1M]
+                combine_jobs[-P1M] & hourly_jobs[-P1M] => debug
             """
 
 [runtime]
