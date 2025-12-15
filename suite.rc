@@ -9,8 +9,7 @@
     [[dependencies]]
         [[[P1M]]]
             graph = """
-                debug => move_jobs => process_jobs => metric_jobs
-                metric_jobs => combine_jobs & hourly_jobs
+                debug => move_jobs => process_jobs => metric_jobs => combine_jobs & hourly_jobs
                 combine_jobs[-P1M] & hourly_jobs[-P1M] => debug
             """
 
