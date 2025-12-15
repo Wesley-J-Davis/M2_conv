@@ -9,8 +9,8 @@
     [[dependencies]]
         [[[P1M]]]
             graph = """
-                debug => move_jobs => process_jobs => metric_jobs => combine_jobs => hourly_jobs
-                hourly_jobs[-P1M] => debug
+                debug => move_jobs:succeed => process_jobs:succeed => metric_jobs:succeed => combine_jobs & hourly_jobs
+                hourly_jobs[-P1M]:succeed => debug
             """
 
 [runtime]
@@ -18,7 +18,6 @@
         [[[environment]]]
             STORAGE_DIR = /discover/nobackup/projects/gmao/merra2/data/obs/.WORK/products_revised
             HOST_DIR = /discover/nobackup/projects/gmao/merra2/data/obs/work_dir_wjd
-            LOG_DIR = /gpfsm/dnb34/dao_ops/TEST/M2_GRITAS/github_repo/M2_GRITAS/src/logs
             SCRIPT_DIR = /discover/nobackup/dao_ops/TEST/M2_GRITAS/github_repo/M2_GRITAS/bin
 
     [[debug]]
@@ -249,13 +248,9 @@
                 ${SCRIPT_DIR}/combine_conv_output.j)
        echo "    - All-SYNOP combine job: $all_combine_job"  >&2
 
-       while squeue -j $all_combine_job >/dev/null 2>&1; do
-           sleep 30
-       done
        echo "All combine completed"
 
         """
-
 
     [[hourly_jobs]]
         script = """
@@ -292,7 +287,7 @@
             SLURM_LOG_DIR=${CYLC_TASK_WORK_DIR}
             hourly_job=$(sbatch --parsable \
                 --array=1-${hourly_array_size}%15 \
-                -t 00:45:00 \
+                -t 02:00:00 \
                 -J ${YEAR_TABLE}.conv.hourly \
                 -o ${SLURM_LOG_DIR}/conv.hourly.%A_%a.log \
                 --export=YEAR_TABLE=${YEAR_TABLE},INSTRUMENT_TABLE=conv,YYYY=${YYYY},MM=${MM},DAYS_IN_MONTH=${DAYS_IN_MONTH},HOST_DIR=${HOST_DIR},STORAGE_DIR=${STORAGE_DIR},ExpID=$ExpID \
