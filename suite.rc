@@ -99,10 +99,6 @@
         echo "All move jobs completed"
         """
 
-        [[[job]]]
-            batch system = slurm
-            execution time limit = PT2H
-
     [[process_jobs]]
         script = """
             set -x
@@ -163,10 +159,6 @@
 
         """
 
-        [[[job]]]
-            batch system = slurm
-            execution time limit = PT2H
-
     [[metric_jobs]]
         script = """
             set -x
@@ -195,10 +187,6 @@
             echo "All $metric_deps jobs completed"
 
         """
-        [[[job]]]
-            batch system = slurm
-            execution time limit = PT2H
-
 
     [[combine_jobs]]
         script = """
@@ -267,9 +255,7 @@
        echo "All combine completed"
 
         """
-        [[[job]]]
-            batch system = slurm
-            execution time limit = PT2H
+
 
     [[hourly_jobs]]
         script = """
@@ -317,10 +303,4 @@
 
                 echo "    - Hourly job array: $hourly_job"  >&2
 
-                while squeue -j $hourly_job >/dev/null 2>&1; do
-                    sleep 30
-                done
         """
-        [[[job]]]
-            batch system = slurm
-            execution time limit = PT2H
